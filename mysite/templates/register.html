@@ -1,0 +1,101 @@
+<!-- main/templates/register.html -->
+{% extends 'base.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Register</h2>
+<form method="post" class="max-w-md mx-auto">
+    {% csrf_token %}
+    
+    <div class="mb-4">
+        <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-700">Username</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+            <p class="text-red-500 text-sm">{{ form.username.errors }}</p>
+        {% endif %}
+    </div>
+
+    <div class="mb-4">
+        <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700">Email</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+            <p class="text-red-500 text-sm">{{ form.email.errors }}</p>
+        {% endif %}
+    </div>
+
+    <div class="mb-4">
+        <label for="{{ form.password1.id_for_label }}" class="block text-sm font-medium text-gray-700">Password</label>
+        <div class="relative">
+            {{ form.password1 }}
+            <button type="button" id="toggle-password1" class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
+                <svg id="password1-eye" class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l1.5 1.5m0-3L3 12m0 0l1.5 1.5M12 6c-6 0-9 6-9 6s3 6 9 6 9-6 9-6-3-6-9-6zm0 6a3 3 0 11-.001-6.001A3 3 0 0112 12z" />
+                </svg>
+                <svg id="password1-eye-off" class="hidden h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.24 14.46a3.004 3.004 0 01-4.48-3.08m5.28 2.92A9.963 9.963 0 0012 4.5C6 4.5 3 12 3 12s3 6 9 6c1.73 0 3.34-.24 4.84-.69m-2.43-2.35a3.004 3.004 0 00-4.44-3.5M15 12a3 3 0 01-3-3m0 6a3 3 0 001.54-.43m.45 0a3.002 3.002 0 002.96-3.34" />
+                </svg>
+            </button>
+        </div>
+        {% if form.password1.errors %}
+            <p class="text-red-500 text-sm">{{ form.password1.errors }}</p>
+        {% endif %}
+    </div>
+
+    <div class="mb-4">
+        <label for="{{ form.password2.id_for_label }}" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+        <div class="relative">
+            {{ form.password2 }}
+            <button type="button" id="toggle-password2" class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
+                <svg id="password2-eye" class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l1.5 1.5m0-3L3 12m0 0l1.5 1.5M12 6c-6 0-9 6-9 6s3 6 9 6 9-6 9-6-3-6-9-6zm0 6a3 3 0 11-.001-6.001A3 3 0 0112 12z" />
+                </svg>
+                <svg id="password2-eye-off" class="hidden h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.24 14.46a3.004 3.004 0 01-4.48-3.08m5.28 2.92A9.963 9.963 0 0012 4.5C6 4.5 3 12 3 12s3 6 9 6c1.73 0 3.34-.24 4.84-.69m-2.43-2.35a3.004 3.004 0 00-4.44-3.5M15 12a3 3 0 01-3-3m0 6a3 3 0 001.54-.43m.45 0a3.002 3.002 0 002.96-3.34" />
+                </svg>
+            </button>
+        </div>
+        {% if form.password2.errors %}
+            <p class="text-red-500 text-sm">{{ form.password2.errors }}</p>
+        {% endif %}
+    </div>
+
+    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Register</button>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const togglePassword1 = document.getElementById('toggle-password1');
+    const password1 = document.getElementById('{{ form.password1.id_for_label }}');
+    const password1Eye = document.getElementById('password1-eye');
+    const password1EyeOff = document.getElementById('password1-eye-off');
+
+    togglePassword1.addEventListener('click', () => {
+        if (password1.type === 'password') {
+            password1.type = 'text';
+            password1Eye.classList.add('hidden');
+            password1EyeOff.classList.remove('hidden');
+        } else {
+            password1.type = 'password';
+            password1Eye.classList.remove('hidden');
+            password1EyeOff.classList.add('hidden');
+        }
+    });
+
+    const togglePassword2 = document.getElementById('toggle-password2');
+    const password2 = document.getElementById('{{ form.password2.id_for_label }}');
+    const password2Eye = document.getElementById('password2-eye');
+    const password2EyeOff = document.getElementById('password2-eye-off');
+
+    togglePassword2.addEventListener('click', () => {
+        if (password2.type === 'password') {
+            password2.type = 'text';
+            password2Eye.classList.add('hidden');
+            password2EyeOff.classList.remove('hidden');
+        } else {
+            password2.type = 'password';
+            password2Eye.classList.remove('hidden');
+            password2EyeOff.classList.add('hidden');
+        }
+    });
+});
+</script>
+{% endblock %}

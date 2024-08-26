@@ -1,0 +1,45 @@
+<!-- main/templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Site{% endblock %}</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                clifford: '#da373d',
+              }
+            }
+          }
+        }
+      </script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <header class="bg-blue-600 text-white p-4">
+        <h1 class="text-2xl text-center py-8">My Django Website</h1>
+        <nav class="text-center">
+            <a href="{% url 'home' %}" class="mr-4 hover:text-gray-200">Home</a>
+            <a href="{% url 'about' %}" class="mr-4 hover:text-gray-200">About</a>
+            <a href="{% url 'contact' %}" class="mr-4 hover:text-gray-200">Contact</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="mr-4 hover:text-gray-200">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="mr-4 hover:text-gray-200">Login</a>
+                <a href="{% url 'register' %}" class="hover:text-gray-200">Register</a>
+            {% endif %}
+        </nav>
+    </header>
+    <main class="p-6">
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer class="bg-gray-800 text-white p-4 text-center">
+        <p>&copy; 2024 My Django Website</p>
+    </footer>
+</body>
+</html>
